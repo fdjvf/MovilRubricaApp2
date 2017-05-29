@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="pesoElementoModel"
+            type="co.edu.uninorte.movilrubricaapp2.Model.Calificaciones.PesoElemento"></variable>
+
+        <variable
+            name="nombrElemento"
+            type="co.edu.uninorte.movilrubricaapp2.Model.Elemento">
+
+        </variable>
+
+    </data>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp">
+
+            <TextView
+                android:id="@+id/element_tvx"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.75"
+                android:text="@{nombrElemento.name}"
+                android:textSize="18sp"
+                android:textStyle="normal|bold" />
+
+            <EditText
+                android:id="@+id/lblListItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.15"
+                android:ems="10"
+                android:inputType="number|numberDecimal"
+                android:text="@={pesoElementoModel.peso}"
+                android:textSize="18sp"
+                tools:text="-" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:text="%"
+                android:textSize="24sp" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="studenthint"
+            type="co.edu.uninorte.movilrubricaapp2.Model.Estudiante">
+
+        </variable>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:weightSum="1">
+
+        <EditText
+            android:id="@+id/StudentNameTbx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Nombre del estudiante"
+            android:inputType="text"
+            android:text="@={studenthint.name}"
+            android:textSize="20sp" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/DeleteStudentRow"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="DeleteEntryStudent"
+            android:tint="@android:color/white"
+            app:backgroundTint="@color/accent"
+            app:fabSize="mini"
+            app:srcCompat="@android:drawable/ic_delete" />
+
+    </LinearLayout>
+
+</layout>

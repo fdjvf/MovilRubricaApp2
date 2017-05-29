@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#ffffff</color>
+    <color name="secondary">#b3ffffff</color>
+    <color name="hint">#80FFFFFF</color>
+    <color name="primary_dark">#80cbc4</color>
+    <color name="bar_color">#212121</color>
+    <color name="accent">#92cbc5</color>
+    <color name="primary_material_dark">#ffffff</color>
+    <color name="backgroundmaterial">#313131</color>
+</resources>

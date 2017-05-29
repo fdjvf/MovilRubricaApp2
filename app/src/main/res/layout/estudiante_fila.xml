@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="estudiante"
+            type="co.edu.uninorte.movilrubricaapp2.Model.Estudiante"></variable>
+    </data>
+
+    <LinearLayout
+        android:id="@+id/studentName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        android:weightSum="1">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="0.06"
+            android:paddingTop="8dp"
+
+            app:cardBackgroundColor="@color/cardview_dark_background">
+
+            <TextView
+                android:id="@+id/student_name_tvx"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:text="@{estudiante.name}"
+                android:textColor="@color/primary"
+                android:textSize="20sp" />
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+</layout>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="nombreEval"
+            type="co.edu.uninorte.movilrubricaapp2.Model.Evaluacion"></variable>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:background="@color/bar_color"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.03"
+                android:paddingTop="20dp"
+                android:text="Creación Evaluacion"
+                android:textAlignment="center"
+                android:textColor="@color/primary"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/nombreEvalEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@={nombreEval.nombre}" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.02"
+                android:paddingTop="20dp"
+                android:text="Escoja una rúbrica a aplicar"
+                android:textAlignment="center"
+                android:textColor="@color/primary"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/spinnerRubricas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.02" />
+
+            <ExpandableListView
+                android:id="@+id/exprubrica"
+                android:layout_width="match_parent"
+                android:layout_height="263dp"
+                android:layout_weight="0.02"
+                android:descendantFocusability="afterDescendants" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="eval"
+            type="co.edu.uninorte.movilrubricaapp2.ItemFragmentEvalEst" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ItemFragmentEvalEst">
+
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@android:id/list"
+                android:layout_width="351dp"
+                android:layout_height="424dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="16dp"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:tag="@{eval.pagina}"
+                app:layoutManager="LinearLayoutManager"
+                app:layout_constraintHorizontal_bias="0.529"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:EvalItems="@{eval.list}">
+
+
+            </ListView>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/CreateAct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginRight="43dp"
+                android:layout_marginTop="0dp"
+                android:clickable="true"
+                android:onClick="StartNewCreationActivity1"
+                android:tint="@android:color/white"
+                app:fabSize="mini"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@android:id/list"
+                app:layout_constraintVertical_bias="0.636"
+                app:srcCompat="@android:drawable/ic_input_add" />
+        </android.support.constraint.ConstraintLayout>
+
+    </FrameLayout>
+
+</layout>
+
