@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "638643171112",
+    "firebase_url": "https://movilrubricaapp2.firebaseio.com",
+    "project_id": "movilrubricaapp2",
+    "storage_bucket": "movilrubricaapp2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:638643171112:android:f869cf912e6575eb",
+        "android_client_info": {
+          "package_name": "co.edu.uninorte.movilrubricaapp2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "638643171112-339f6p73sk6jt3ecibnivaq7a6f7gn0b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.edu.uninorte.movilrubricaapp2",
+            "certificate_hash": "c9af3e6dec6256deb34764ea7c0aa7f9adccfff5"
+          }
+        },
+        {
+          "client_id": "638643171112-c240o9h6suoqtto6kt7eroqn2ksjab7r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsci--4Vj_lIx9BZsVdLQZd4rIXnWOEnI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "638643171112-c240o9h6suoqtto6kt7eroqn2ksjab7r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
