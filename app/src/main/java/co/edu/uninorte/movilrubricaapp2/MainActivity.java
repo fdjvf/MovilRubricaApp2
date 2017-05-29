@@ -11,15 +11,9 @@ import com.orm.SugarContext;
 import java.io.Serializable;
 
 import co.edu.uninorte.movilrubricaapp2.Model.Asignatura;
-import co.edu.uninorte.movilrubricaapp2.Model.Calificacion;
-import co.edu.uninorte.movilrubricaapp2.Model.Calificaciones.CalCategoria;
-import co.edu.uninorte.movilrubricaapp2.Model.Calificaciones.CalElemento;
-import co.edu.uninorte.movilrubricaapp2.Model.Calificaciones.PesoCategoria;
-import co.edu.uninorte.movilrubricaapp2.Model.Calificaciones.PesoElemento;
 import co.edu.uninorte.movilrubricaapp2.Model.Categoria;
 import co.edu.uninorte.movilrubricaapp2.Model.Elemento;
 import co.edu.uninorte.movilrubricaapp2.Model.Estudiante;
-import co.edu.uninorte.movilrubricaapp2.Model.InfoNivel;
 import co.edu.uninorte.movilrubricaapp2.Model.Rubrica;
 import co.edu.uninorte.movilrubricaapp2.databinding.MainActivityBinding;
 
@@ -33,17 +27,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     boolean EditingCurso;
 
     public static void fill() {
-        Asignatura.deleteAll(Asignatura.class);
-        Rubrica.deleteAll(Rubrica.class);
-        Estudiante.deleteAll(Estudiante.class);
-        Categoria.deleteAll(Categoria.class);
-        Elemento.deleteAll(Elemento.class);
-        InfoNivel.deleteAll(InfoNivel.class);
-        PesoCategoria.deleteAll(PesoCategoria.class);
-        PesoElemento.deleteAll(PesoElemento.class);
-        CalElemento.deleteAll(CalElemento.class);
-        CalCategoria.deleteAll(CalCategoria.class);
-        Calificacion.deleteAll(Calificacion.class);
+
         for (int i = 1; i < 11; i++) {
             Rubrica r = new Rubrica();
             r.setName("Rubrica " + i);
@@ -132,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
         int page = binding.viewpager.getCurrentItem();
         if (page == 0) {
             Intent myIntent = new Intent(this, EvaluacionEstudianteActivity.class);
-            Asignatura selectedCourse= (Asignatura) Asignatura.ObserVableAsignaturas.get(position);
+            Asignatura selectedCourse = Asignatura.ObserVableAsignaturas.get(position);
             long selectedCourseId= selectedCourse.getId();
             myIntent.putExtra("myCourseId", selectedCourseId);
             startActivity(myIntent);
@@ -140,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
         } else {
 
             Intent myIntent = new Intent(this, RubricaCreacion.class);
-            Rubrica selectedRubrica = (Rubrica) Rubrica.ObservableListRubrica.get(position);
+            Rubrica selectedRubrica = Rubrica.ObservableListRubrica.get(position);
             long idRubrica = selectedRubrica.getId();
             myIntent.putExtra("Edicion", true);
             EditingRubrica = true;

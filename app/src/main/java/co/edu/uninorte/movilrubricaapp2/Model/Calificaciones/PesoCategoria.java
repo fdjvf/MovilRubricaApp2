@@ -1,21 +1,19 @@
 package co.edu.uninorte.movilrubricaapp2.Model.Calificaciones;
 
-import com.orm.SugarRecord;
+import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import co.edu.uninorte.movilrubricaapp2.Model.Categoria;
-import co.edu.uninorte.movilrubricaapp2.Model.Evaluacion;
 
 /**
  * Created by fdjvf on 4/16/2017.
  */
-
-public class PesoCategoria extends SugarRecord {
+@IgnoreExtraProperties
+public class PesoCategoria {
 
     public Categoria categoria;
-    public Evaluacion evaluacion;
-
+    public ArrayList<PesoElemento> pesoElementos;
     String Peso;
 
 
@@ -24,6 +22,7 @@ public class PesoCategoria extends SugarRecord {
     }
     public PesoCategoria(String peso) {
         this.Peso = peso;
+        pesoElementos = new ArrayList<>();
 
     }
 
@@ -37,15 +36,8 @@ public class PesoCategoria extends SugarRecord {
 
     public void setPeso(String peso) {
         Peso = peso;
-
-
     }
 
-
-    public List<PesoElemento> getPesoElemento() {
-
-        return PesoElemento.find(PesoElemento.class, "pesoCategoria = ?", String.valueOf(this.getId()));
-    }
 
 
 }

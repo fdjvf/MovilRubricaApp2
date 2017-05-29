@@ -2,37 +2,30 @@ package co.edu.uninorte.movilrubricaapp2.Model;
 
 import android.databinding.ObservableArrayList;
 
-import com.orm.SugarRecord;
-
-import java.util.List;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 /**
  * Created by fdjvf on 4/11/2017.
  */
 
-public class Elemento extends SugarRecord {
+@IgnoreExtraProperties
+public class Elemento {
 
-    public ObservableArrayList<Object> ObservableDescricionNivel;
-    public Categoria categoria;
+    public ObservableArrayList<InfoNivel> ObservableDescricionNivel;
     String name;
+
+    public Elemento(ObservableArrayList<InfoNivel> observableDescricionNivel, String name) {
+        ObservableDescricionNivel = observableDescricionNivel;
+        this.name = name;
+    }
 
     public Elemento() {
 
     }
 
 
-    public Elemento(String name, Float peso, String descripcion, Categoria categoria) {
-        this.name = name;
-        this.categoria = categoria;
-    }
 
-    public Categoria getCategoria() {
-        return categoria;
-    }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
 
     public String getName() {
         return name;
@@ -42,11 +35,5 @@ public class Elemento extends SugarRecord {
         this.name = name;
     }
 
-    public List<InfoNivel> getInfoNivel() {
-        ObservableDescricionNivel = new ObservableArrayList<>();
-        List<InfoNivel> infoNivelList = InfoNivel.find(InfoNivel.class, "elemento = ?", String.valueOf(this.getId()));
-        ObservableDescricionNivel.addAll(infoNivelList);
-        return infoNivelList;
-    }
 
 }

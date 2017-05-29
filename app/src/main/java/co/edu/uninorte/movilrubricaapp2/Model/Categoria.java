@@ -2,38 +2,28 @@ package co.edu.uninorte.movilrubricaapp2.Model;
 
 import android.databinding.ObservableArrayList;
 
-import com.orm.SugarRecord;
-
-import java.util.List;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 /**
  * Created by fdjvf on 4/11/2017.
  */
+@IgnoreExtraProperties
+public class Categoria {
 
-public class Categoria extends SugarRecord {
-
-    public Rubrica rubrica;
-    public ObservableArrayList<Object> ObservableListElements;
+    public ObservableArrayList<Elemento> ObservableListElements;
     String name;
     String descripcion;
+
+    public Categoria(ObservableArrayList<Elemento> observableListElements, String name, String descripcion) {
+        ObservableListElements = observableListElements;
+        this.name = name;
+        this.descripcion = descripcion;
+    }
+
     public Categoria() {
 
     }
 
-    public Categoria(String name, String descripcion, Rubrica rubrica1) {
-        this.name = name;
-        this.descripcion = descripcion;
-        this.rubrica = rubrica1;
-
-    }
-
-    public static ObservableArrayList<Object> getCategorias(int nivel) {
-
-        List<Categoria> categorias = Categoria.find(Categoria.class, "Level = ?", Integer.toString(nivel));
-        ObservableArrayList<Object> observableArrayList = new ObservableArrayList();
-        observableArrayList.addAll(categorias);
-        return observableArrayList;
-    }
 
     public String getName() {
         return name;
@@ -51,17 +41,5 @@ public class Categoria extends SugarRecord {
         this.descripcion = descripcion;
     }
 
-    public boolean getElementos() {
-        ObservableListElements = new ObservableArrayList<>();
-        List<Elemento> elementos = Elemento.find(Elemento.class, "categoria = ?", String.valueOf(this.getId()));
-        return ObservableListElements.addAll(elementos);
-
-    }
-
-    public List<Elemento> getElementoslista() {
-
-        return Elemento.find(Elemento.class, "categoria = ?", String.valueOf(this.getId()));
-
-    }
 
 }

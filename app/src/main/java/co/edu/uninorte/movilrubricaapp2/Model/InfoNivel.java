@@ -4,19 +4,19 @@ import android.databinding.Bindable;
 import android.databinding.Observable;
 import android.databinding.PropertyChangeRegistry;
 
-import com.orm.SugarRecord;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import co.edu.uninorte.movilrubricaapp2.BR;
 
 /**
  * Created by fdjvf on 4/12/2017.
  */
-
-public class InfoNivel extends SugarRecord implements Observable {
+@IgnoreExtraProperties
+public class InfoNivel implements Observable {
 
     String descripcion;
     int nivel;
-    Elemento elemento;
+
     private PropertyChangeRegistry registry = new PropertyChangeRegistry();
 
     public InfoNivel(String descripcion, int nivel) {
@@ -28,13 +28,6 @@ public class InfoNivel extends SugarRecord implements Observable {
 
     }
 
-    public Elemento getElemento() {
-        return elemento;
-    }
-
-    public void setElemento(Elemento elemento) {
-        this.elemento = elemento;
-    }
 
 
     @Bindable

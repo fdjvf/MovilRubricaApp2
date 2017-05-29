@@ -2,41 +2,33 @@ package co.edu.uninorte.movilrubricaapp2.Model;
 
 import android.databinding.Bindable;
 import android.databinding.Observable;
+import android.databinding.ObservableArrayList;
 import android.databinding.PropertyChangeRegistry;
 
-import com.orm.SugarRecord;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import co.edu.uninorte.movilrubricaapp2.BR;
 
-
-public class Estudiante extends SugarRecord implements Observable {
+@IgnoreExtraProperties
+public class Estudiante implements Observable {
 
 
 
     String name = "";
     Boolean state;
-    Asignatura asignatura;
+    String UID;
     private PropertyChangeRegistry registry = new PropertyChangeRegistry();
+
+    public Estudiante(String name, Boolean state, String UID) {
+        this.name = name;
+        this.state = state;
+        this.UID = UID;
+    }
 
     public Estudiante() {
 
     }
 
-    public Estudiante(String name, Boolean state, Asignatura asignatura) {
-        this.name = name;
-        this.state = state;
-        this.asignatura = asignatura;
-
-    }
-
-    //Siempre guardar el ID
-    public Asignatura getAsignatura() {
-        return asignatura;
-    }
-
-    public void setAsignatura(Asignatura asignatura) {
-        this.asignatura = asignatura;
-    }
 
     @Bindable
     public String getName() {
@@ -58,6 +50,20 @@ public class Estudiante extends SugarRecord implements Observable {
          //registry.notifyChange(this, BR.bar);
     }
 
+    public ObservableArrayList<Asignatura> getAsignaturas() {
+        ObservableArrayList<Asignatura> estudianteAsignaturas = new ObservableArrayList<>();
+  /*      for(Asignatura temp:Asignatura.ObserVableAsignaturas)
+        {
+            ObservableArrayList<Estudiante> estudiantes=temp.ObservableEstudiantesCurso;
+            boolean exist=estudiantes.stream().anyMatch(x->x.UID.equals(UID));
+            if (exist)
+            {
+                estudianteAsignaturas.add(temp);
+            }
+
+        }*/
+        return estudianteAsignaturas;
+    }
 
     @Override
     public void addOnPropertyChangedCallback(OnPropertyChangedCallback onPropertyChangedCallback) {

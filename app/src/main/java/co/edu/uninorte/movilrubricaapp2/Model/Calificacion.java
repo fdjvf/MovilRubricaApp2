@@ -1,46 +1,37 @@
 package co.edu.uninorte.movilrubricaapp2.Model;
 
-import com.orm.SugarRecord;
+import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import co.edu.uninorte.movilrubricaapp2.Model.Calificaciones.CalCategoria;
 
 /**
  * Created by fdjvf on 4/16/2017.
  */
+@IgnoreExtraProperties
+public class Calificacion {
 
-public class Calificacion extends SugarRecord {
-
-    Evaluacion evaluacion;
+    ArrayList<CalCategoria> calCategorias;
     Estudiante estudiante;
 
     public Calificacion() {
 
     }
 
-    public Calificacion(float nota, Evaluacion eval, Estudiante student) {
-        this.evaluacion = eval;
+    public Calificacion(float nota, Estudiante student) {
         this.estudiante = student;
+        calCategorias = new ArrayList<>();
     }
 
     public float getNotaFinal() {
         float Sum = 0;
-        List<CalCategoria> notascal = CalCategoria.find(CalCategoria.class, "calificacion = ?", String.valueOf(getId()));
 
-        for (CalCategoria caltegoria : notascal) {
+        for (CalCategoria caltegoria : calCategorias) {
             Sum = Sum + caltegoria.getNotaFinal();
         }
 
         return Sum;
-    }
-
-    public Evaluacion getEvaluacion() {
-        return evaluacion;
-    }
-
-    public void setEvaluacion(Evaluacion evaluacion) {
-        this.evaluacion = evaluacion;
     }
 
     public Estudiante getEstudiante() {

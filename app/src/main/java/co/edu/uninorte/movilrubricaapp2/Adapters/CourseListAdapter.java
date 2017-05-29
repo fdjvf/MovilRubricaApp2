@@ -11,6 +11,7 @@ import co.edu.uninorte.movilrubricaapp2.Model.Asignatura;
 import co.edu.uninorte.movilrubricaapp2.R;
 import co.edu.uninorte.movilrubricaapp2.databinding.CursoFilaBinding;
 
+
 /**
  * Created by fdjvf on 4/13/2017.
  */

@@ -1,16 +1,16 @@
 package co.edu.uninorte.movilrubricaapp2.Model.Calificaciones;
 
-import com.orm.SugarRecord;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 /**
  * Created by fdjvf on 4/16/2017.
  */
-
-public class CalElemento extends SugarRecord {
+@IgnoreExtraProperties
+public class CalElemento {
 
     float pesoElemento;
     float Nota;
-    CalCategoria calCategoria;
+
 
     public CalElemento() {
 
