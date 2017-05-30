@@ -36,17 +36,17 @@ public class ElementoCreacion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ElementoCreacionActivityBinding elementoCreacionActivityBinding = DataBindingUtil.setContentView(this, R.layout.elemento_creacion_activity);
         elementoCreacionContentBinding = elementoCreacionActivityBinding.elementoContent;
-
-
         Intent intent = getIntent();
+
+        String  id = intent.getStringExtra("Categoria");
+        Categoria categoria = Categoria.findById(Categoria.class, id);
         isEditable = intent.getBooleanExtra("Edicion", true);
 
         if (isEditable) {
-            long idele = intent.getLongExtra("elementoedit", 1);
-            elemento = Elemento.findById(Elemento.class, idele);
+            String idele = intent.getStringExtra("elementoedit");
+            elemento = categoria.FindOneElement(idele);
         } else {
-            long id = intent.getLongExtra("Categoria", 0);
-            Categoria categoria = Categoria.findById(Categoria.class, id);
+
             Nivel = categoria.rubrica.EscalaMaxima;
             elemento = new Elemento();
             elemento.setName("");

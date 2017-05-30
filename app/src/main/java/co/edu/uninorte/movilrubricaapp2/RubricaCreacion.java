@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import co.edu.uninorte.movilrubricaapp2.Model.App;
 import co.edu.uninorte.movilrubricaapp2.Model.Categoria;
 import co.edu.uninorte.movilrubricaapp2.Model.Rubrica;
 import co.edu.uninorte.movilrubricaapp2.databinding.RubricaCreacionBinding;
@@ -23,7 +24,7 @@ import co.edu.uninorte.movilrubricaapp2.databinding.RubricaDescripcionInputBindi
 
 public class RubricaCreacion extends AppCompatActivity {
 
-    public ObservableArrayList<Categoria> mylist = new ObservableArrayList<>();
+    public ObservableArrayList<Object> mylist = new ObservableArrayList<>();
     public Rubrica rubrica;
     RubricaDescripcionInputBinding texboxinputBinding;
     RubricaCreacionBinding rubricaCreacionBinding;
@@ -41,6 +42,7 @@ public class RubricaCreacion extends AppCompatActivity {
 
         rubricaCreacionBinding = DataBindingUtil.setContentView(this, R.layout.rubrica_creacion);
         rubricaCreacionContentBinding = rubricaCreacionBinding.rubricaContent;
+
         Intent t = getIntent();
 //TODO: AGREGAR GETKEY A LA RUBRICA Y SETEARLE EL ID
         rubricaCreacionBinding.AgregarCategoria.setEnabled(false);
@@ -60,6 +62,7 @@ public class RubricaCreacion extends AppCompatActivity {
             rubrica = new Rubrica();
             rubrica.setName("");
             rubrica.setDescripcion("");
+            rubrica.setID(App.getRubricas().getKey());
             //TODO: ponerle el key
             //rubrica.Save();
             //guardado normalito, sin agregarlo a la vaina observable
@@ -113,7 +116,7 @@ public class RubricaCreacion extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Categoria categoria = mylist.get(position);
+                Categoria categoria = (Categoria) mylist.get(position);
                 Intent temp = new Intent(RubricaCreacion.this, CategoriaCreacion.class);
                 temp.putExtra("Edicion", true);
                 temp.putExtra("Nuevo", isNew);//AGREGAR O NO MAS CATEGOORIAS
@@ -129,19 +132,21 @@ public class RubricaCreacion extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //Agregado nuevo valor
         if (catedited) {
-            String id = data.getStringExtra("editcategoria");
-            Categoria categoria = Categoria.FindOne(id);
+            int id = data.getIntExtra("editcategoria", 0);
+           //TODO: rubrica
+            Categoria categoria = rubrica.FindOneCategoria(id);
             mylist.set(LastCatClicked, categoria);
             catedited = false;
-
+            rubrica.ObservableListCategorias.set(id,categoria);
             //CategoriaAddListAdapter.bindList(rubricaCreacionContentBinding.CategoriasDisponiblesListView,mylist);
         } else {
             if (resultCode == RESULT_OK) {
-                String id = data.getStringExtra("NewCategoria");
 
-                Categoria categoria = Categoria.FindOne(id);
-
+                int id = data.getIntExtra("NewCategoria",0);
+                Categoria categoria = rubrica.FindOneCategoria(id);
                 mylist.add(categoria);
+
+                rubrica.ObservableListCategorias.add(categoria);
             }
         }
 

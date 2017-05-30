@@ -20,7 +20,7 @@ import co.edu.uninorte.movilrubricaapp2.BR;
 public class Rubrica implements Observable {
 
     public static ObservableArrayList<Object> ObservableListRubrica = new ObservableArrayList<>();
-    public  ObservableArrayList<Categoria> ObservableListCategorias;
+    public  ObservableArrayList<Object> ObservableListCategorias;
     public int EscalaMaxima;
     public String ID;
     String name;
@@ -54,19 +54,21 @@ public class Rubrica implements Observable {
         }
         return null;
     }
-    public  Categoria FindOneCategoria(String UID) {
-        for (Object temp : ObservableListCategorias) {
-            Categoria a = (Categoria) temp;
-            if (a.ID.equals(UID)) {
-                return a;
-            }
-        }
-        return null;
+    public  Categoria FindOneCategoria(int UID) {
+        return (Categoria) ObservableListCategorias.get(UID);
     }
     @Bindable
     public String getName() {
         return name;
     }//Implementar Observable en el Display
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
 
     @Bindable
     public void setName(String name) {

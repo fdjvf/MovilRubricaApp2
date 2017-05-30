@@ -17,7 +17,6 @@ public class App extends Application {
     private DatabaseReference Asignaturas;
     private DatabaseReference Rubricas;
     private DatabaseReference connectedRef;
-    private DatabaseReference Categorias;
 
 
     @Override
@@ -29,8 +28,6 @@ public class App extends Application {
         Asignaturas.keepSynced(true);
         Rubricas = FirebaseDatabase.getInstance().getReference("Rubricas");
         Rubricas.keepSynced(true);
-        Categorias = FirebaseDatabase.getInstance().getReference("Categorias");
-        Categorias.keepSynced(true);
 
         connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
     }
@@ -50,9 +47,6 @@ public class App extends Application {
         return getInstance().Rubricas;
     }
 
-    public static DatabaseReference getCategorias() {
-        return getInstance().Categorias;
-    }
 
     public void OnChangedAsignaturas() {
         Asignaturas.addChildEventListener(new ChildEventListener() {
@@ -137,33 +131,6 @@ public class App extends Application {
         });
     }
 
-    public void OnChangeCategorias(){
-        Categorias.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 
 }

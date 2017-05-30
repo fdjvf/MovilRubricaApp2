@@ -70,9 +70,7 @@ public class CategoriaCreacion extends AppCompatActivity {
             //categoria.rubrica = myrubrica;
             categoria.setDescripcion("");
             categoria.setName("");
-            categoria.setID(App.getCategorias().getKey());
-            categoria.Save();
-
+            categoria.setID(myrubrica.ObservableListCategorias.size());
             myrubrica.ObservableListCategorias.add(categoria);
             myrubrica.Save();
 
@@ -117,14 +115,14 @@ public class CategoriaCreacion extends AppCompatActivity {
         if (elementedited) {
         //TODO: mas tarde
             String id = data.getStringExtra("editcElemento");
-            Elemento elemento = Elemento.findById(Elemento.class, id);
+            Elemento elemento = categoria.FindOneElement(id);
             ElementList.set(LastClicked, elemento);
             elementedited = false;
         } else {
 
             if (resultCode == RESULT_OK) {
-                long id = data.getLongExtra("NuevoElemento", 0);
-                Elemento newElement = Elemento.findById(Elemento.class, id);
+                String id = data.getStringExtra("NuevoElemento");
+                Elemento newElement = categoria.FindOneElement(id);
                 ElementList.add(newElement);
             }
 
@@ -174,25 +172,29 @@ public class CategoriaCreacion extends AppCompatActivity {
 
             Intent myIntent = getIntent();
             if (IsEditable) {
-                categoria.save();
+               //TODO: FABIO NO SÉ QUÉ HACE ESTO
+                //categoria.save();
                 myIntent.putExtra("editcategoria", categoria.getID());
                 setResult(RESULT_OK, myIntent);
             } else {
-                if (!categoria.getElementoslista().isEmpty()) {
+                if (!categoria.ObservableListElements.isEmpty()) {
                     if (categoria.getDescripcion().isEmpty()) {
                         categoria.setDescripcion("Breve Descripción");
                     }
                     if (categoria.getName().isEmpty()) {
-                        categoria.setName("Categoria " + myrubrica.getCategorias().size());
+                        categoria.setName("Categoria " + myrubrica.ObservableListCategorias.size());
                     }
-                    categoria.rubrica = myrubrica;
-                    categoria.save();
-                    myIntent.putExtra("NewCategoria", categoria.getId());
+                   //TODO: categoria.Save();
+                    myrubrica.ObservableListCategorias.add(categoria);
+                    myrubrica.Save();
+                    //categoria.rubrica = myrubrica;
+                    //categoria.save();
+                    myIntent.putExtra("NewCategoria", categoria.getID());
 
                     setResult(RESULT_OK, myIntent);
                 } else {
                     setResult(RESULT_CANCELED, myIntent);
-                    categoria.delete();
+                    //categoria.delete();
                 }
 
             }

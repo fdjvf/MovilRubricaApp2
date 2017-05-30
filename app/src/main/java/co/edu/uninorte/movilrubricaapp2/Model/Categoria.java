@@ -15,9 +15,9 @@ public class Categoria {
     public ObservableArrayList<Object> ObservableListElements;
     String name;
     String descripcion;
-    String ID;
+    int ID;
     DatabaseReference Categorias;//Falta inicializar
-    public Categoria(String name, String descripcion, String ID) {
+    public Categoria(String name, String descripcion, int ID) {
         this.name = name;
         this.descripcion = descripcion;
         this.ID = ID;
@@ -25,10 +25,6 @@ public class Categoria {
 
     public Categoria() {
 
-    }
-
-    public void Save(){
-        Categorias.child(ID).setValue(this);
     }
 
     public Elemento FindOneElement(String UID) {
@@ -43,11 +39,11 @@ public class Categoria {
 
 
 
-    public String getID() {
+    public int getID() {
         return ID;
     }
 
-    public void setID(String ID) {
+    public void setID(int ID) {
         this.ID = ID;
     }
 
