@@ -15,7 +15,7 @@ public class EvaluacionEstudianteActivity extends AppCompatActivity implements I
 
     EvaluacionEstudianteActivityBinding binding;
     Asignatura actualCourse;
-    long actualCourseId;
+    String actualCourseId;
 //TODO: Mandar en el intent el curso que escogió para sacar los estudiante y las evaluaciones pertenecientes a él
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +23,8 @@ public class EvaluacionEstudianteActivity extends AppCompatActivity implements I
         binding = DataBindingUtil.setContentView(this, R.layout.evaluacion_estudiante_activity);
 
         Intent intent = getIntent();
-        actualCourseId=  intent.getLongExtra("myCourseId",0);
-        actualCourse = Asignatura.findById(Asignatura.class, actualCourseId);
+        actualCourseId=  intent.getStringExtra("myCourseId");
+        actualCourse = Asignatura.FindOne(actualCourseId);
 
 
         binding.viewpagerEvalEstudiante.setAdapter(new myPagerAdapterEvalEst(getSupportFragmentManager(), actualCourseId));

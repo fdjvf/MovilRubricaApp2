@@ -17,10 +17,13 @@ import co.edu.uninorte.movilrubricaapp2.databinding.CalificacionEstudiantesActiv
 
 public class EstudiantesCalificacionActivity extends AppCompatActivity {
     public static long actualCourse;
+    public static Asignatura as;
+
 
     @BindingAdapter("bind:EstudianteItems")
     public static void bindList(ListView view, ObservableArrayList<Object> list) {
-        view.setAdapter(new EstudianteListAdapter(Asignatura.ObservableEstudiantesCurso));
+        as = Asignatura.FindOne(String.valueOf(actualCourse));
+        view.setAdapter(new EstudianteListAdapter(as.ObservableEstudiantesCurso));
     }
 
     @Override
@@ -28,8 +31,7 @@ public class EstudiantesCalificacionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         actualCourse = intent.getLongExtra("myCourseId", 0);
-        Asignatura as = Asignatura.findById(Asignatura.class, actualCourse);
-        as.getEstudiante();
+        as = Asignatura.FindOne(String.valueOf(actualCourse));
         CalificacionEstudiantesActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.calificacion_estudiantes_activity);
         binding.setNombreEst(as);
         binding.mylistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

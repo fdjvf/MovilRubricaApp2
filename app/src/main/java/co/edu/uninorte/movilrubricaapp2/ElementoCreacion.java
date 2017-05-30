@@ -50,7 +50,7 @@ public class ElementoCreacion extends AppCompatActivity {
             Nivel = categoria.rubrica.EscalaMaxima;
             elemento = new Elemento();
             elemento.setName("");
-            elemento.setCategoria(categoria);
+           // elemento.setCategoria(categoria);
             elemento.save();
 
         }

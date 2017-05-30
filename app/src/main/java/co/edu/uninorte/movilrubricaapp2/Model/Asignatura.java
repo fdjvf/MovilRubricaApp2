@@ -10,6 +10,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Objects;
 import java.util.Set;
 
 import co.edu.uninorte.movilrubricaapp2.BR;
@@ -23,10 +24,10 @@ import co.edu.uninorte.movilrubricaapp2.BR;
 public class Asignatura implements Observable {
     //Manejo de Binding
 
-    public static ObservableArrayList<Asignatura> ObserVableAsignaturas = new ObservableArrayList<>();    //Todas las asignaturas
+    public static ObservableArrayList<Object> ObserVableAsignaturas = new ObservableArrayList<>();    //Todas las asignaturas
     public Hashtable<String, ArrayList<Calificacion>> Calificaciones; //Calificioanes
-    public ObservableArrayList<Estudiante> ObservableEstudiantesCurso; //Estudiantes
-    public ObservableArrayList<Evaluacion> ObservableEvaluacionesCurso; //Evaluaciones
+    public  ObservableArrayList<Object> ObservableEstudiantesCurso; //Estudiantes
+    public ObservableArrayList<Object> ObservableEvaluacionesCurso; //Evaluaciones
     String name = "";
     String description = "";
     Boolean isVisible;
@@ -45,7 +46,7 @@ public class Asignatura implements Observable {
         this.UID = UID;
         Calificaciones = new Hashtable<>();
         ObservableEstudiantesCurso = new ObservableArrayList<>();
-        ObservableEstudiantesCurso = new ObservableArrayList<>();
+        ObservableEvaluacionesCurso = new ObservableArrayList<>();
     }
 
 
@@ -54,9 +55,10 @@ public class Asignatura implements Observable {
     }
 
     public static Asignatura FindOne(String UID) {
-        for (Asignatura temp : ObserVableAsignaturas) {
-            if (temp.UID.equals(UID)) {
-                return temp;
+        for (Object temp : ObserVableAsignaturas) {
+            Asignatura a = (Asignatura) temp;
+            if (a.UID.equals(UID)) {
+                return a;
             }
         }
         return null;
@@ -103,7 +105,6 @@ public class Asignatura implements Observable {
     //Solo utilizar para creacion, de resto utilizar el save
     public void Save()
     {
-
         Asignaturas.child(UID).setValue(this);
     }
 

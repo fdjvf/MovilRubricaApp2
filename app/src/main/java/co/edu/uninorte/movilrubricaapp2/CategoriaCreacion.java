@@ -13,6 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.google.firebase.database.DatabaseReference;
+
+import co.edu.uninorte.movilrubricaapp2.Model.App;
 import co.edu.uninorte.movilrubricaapp2.Model.Categoria;
 import co.edu.uninorte.movilrubricaapp2.Model.Elemento;
 import co.edu.uninorte.movilrubricaapp2.Model.Rubrica;
@@ -27,6 +30,7 @@ public class CategoriaCreacion extends AppCompatActivity {
     CategoriaDescripcionInputBinding texboxinputBinding;
     Categoria categoria;
     Rubrica myrubrica;
+    DatabaseReference mRubricas;
     int Nivel = 0;
     boolean IsEditable;
     boolean isNew;
@@ -39,30 +43,39 @@ public class CategoriaCreacion extends AppCompatActivity {
         final CategoriaCreacionActivityBinding categoriaCreacionActivityBinding = DataBindingUtil.setContentView(this, R.layout.categoria_creacion_activity);
         final CategoriaCreacionContentBinding categoriaCreacionContentBinding = categoriaCreacionActivityBinding.categoriaContent;
 
+        mRubricas = App.getRubricas();
         Intent intent = getIntent();
         IsEditable = intent.getBooleanExtra("Edicion", true);
         isNew = intent.getBooleanExtra("Nuevo", true);
+        String id = intent.getStringExtra("Rubrica");
+        myrubrica = Rubrica.FindOne(id);
 
         if (!isNew) {
             categoriaCreacionActivityBinding.AgregarElemento.setEnabled(false);
         }
         if (IsEditable) {
 
-            long catid = intent.getLongExtra("CateEdit", 0);
-            categoria = Categoria.findById(Categoria.class, catid);
-            categoria.getElementos();
+            String catid = intent.getStringExtra("CateEdit");
+            categoria = myrubrica.FindOneCategoria(catid);
+            //categoria.getElementos();
             ElementList = categoria.ObservableListElements;
 
         } else {
 
-            long id = intent.getLongExtra("Rubrica", 0);
-            myrubrica = Rubrica.findById(Rubrica.class, id);
+
+
             Nivel = myrubrica.EscalaMaxima;
+
             categoria = new Categoria();
-            categoria.rubrica = myrubrica;
+            //categoria.rubrica = myrubrica;
             categoria.setDescripcion("");
             categoria.setName("");
-            categoria.save();
+            categoria.setID(App.getCategorias().getKey());
+            categoria.Save();
+
+            myrubrica.ObservableListCategorias.add(categoria);
+            myrubrica.Save();
+
         }
         Toolbar toolbar = categoriaCreacionActivityBinding.toolbar;
         setSupportActionBar(toolbar);
@@ -78,7 +91,7 @@ public class CategoriaCreacion extends AppCompatActivity {
                 elementedited = true;
                 LastClicked = position;
                 Elemento elemento = (Elemento) ElementList.get(position);
-                temp.putExtra("elementoedit", elemento.getId());
+                temp.putExtra("elementoedit", elemento.getUID());
                 startActivityForResult(temp, 1);
 
 
@@ -91,7 +104,7 @@ public class CategoriaCreacion extends AppCompatActivity {
                 //Actividad de creacion de elementos
                 Intent temp = new Intent(CategoriaCreacion.this, ElementoCreacion.class);
                 temp.putExtra("Edicion", false);
-                temp.putExtra("Categoria", categoria.getId());
+                temp.putExtra("Categoria", categoria.getID());
                 startActivityForResult(temp, 1);
             }
         });
@@ -102,7 +115,8 @@ public class CategoriaCreacion extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (elementedited) {
-            long id = data.getLongExtra("editcElemento", 1);
+        //TODO: mas tarde
+            String id = data.getStringExtra("editcElemento");
             Elemento elemento = Elemento.findById(Elemento.class, id);
             ElementList.set(LastClicked, elemento);
             elementedited = false;
@@ -161,7 +175,7 @@ public class CategoriaCreacion extends AppCompatActivity {
             Intent myIntent = getIntent();
             if (IsEditable) {
                 categoria.save();
-                myIntent.putExtra("editcategoria", categoria.getId());
+                myIntent.putExtra("editcategoria", categoria.getID());
                 setResult(RESULT_OK, myIntent);
             } else {
                 if (!categoria.getElementoslista().isEmpty()) {

@@ -27,7 +27,7 @@ public class ItemFragmentEvalEst extends ListFragment {
     // TODO: Customize parameter argument names
     private static final String ARG_PAGE = "pagina";
     private static final String ARG_COURSEID = "myCourse";
-    private static long myCourse;
+    private static String myCourse;
     public ObservableArrayList<Object> list;
     //private static final String ARG_LISTA = "vector";
     // TODO: Customize parameters
@@ -43,13 +43,13 @@ public class ItemFragmentEvalEst extends ListFragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static ItemFragmentEvalEst newInstance(int columnCount, long course) {
+    public static ItemFragmentEvalEst newInstance(int columnCount, String course) {
         ItemFragmentEvalEst fragment = new ItemFragmentEvalEst();
         Bundle args = new Bundle();
     //course.ObservableEstudiantesCurso;
 
         args.putInt(ARG_PAGE, columnCount);
-        args.putLong(ARG_COURSEID, course);
+        args.putString(ARG_COURSEID, course);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,17 +58,17 @@ public class ItemFragmentEvalEst extends ListFragment {
     public static void bindList(ListView view, ObservableArrayList<Object> list) {
         int pag = (int) view.getTag();
 
-        Asignatura as = Asignatura.findById(Asignatura.class,myCourse);
+        Asignatura as = Asignatura.FindOne(myCourse);
 
         //lalala
         switch (pag) {
             case 1:
-                as.getEvaluaciones();
-                view.setAdapter(new EvaluacionListAdapter(Asignatura.ObservableEvaluacionesCurso));
+                //as.getEvaluaciones();
+                view.setAdapter(new EvaluacionListAdapter(as.ObservableEvaluacionesCurso));
                 break;
             case 2:
-                as.getEstudiante();
-                view.setAdapter(new EstudianteListAdapter(Asignatura.ObservableEstudiantesCurso));
+                //as.getEstudiante();
+                view.setAdapter(new EstudianteListAdapter(as.ObservableEstudiantesCurso));
                 break;
 
         }
@@ -80,17 +80,17 @@ public class ItemFragmentEvalEst extends ListFragment {
                              Bundle savedInstanceState) {
 
         FragmentListEvalestBinding bindingFragment = DataBindingUtil.inflate(inflater, R.layout.fragment_list_evalest, container, false);
-        Asignatura as = Asignatura.findById(Asignatura.class,myCourse);
+        Asignatura as = Asignatura.FindOne(myCourse);
 
 
         switch (pagina) {
             case 1:
-               as.getEvaluaciones();
-                list = Asignatura.ObservableEvaluacionesCurso;
+               //as.getEvaluaciones();
+                list = as.ObservableEvaluacionesCurso;
                 break;
             case 2:
-             as.getEstudiante();
-                list = Asignatura.ObservableEstudiantesCurso;
+             //as.getEstudiante();
+                list = as.ObservableEstudiantesCurso;
                 break;
         }
 
@@ -111,7 +111,7 @@ public class ItemFragmentEvalEst extends ListFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             pagina = getArguments().getInt(ARG_PAGE);
-            myCourse=getArguments().getLong(ARG_COURSEID);
+            myCourse=getArguments().getString(ARG_COURSEID);
 
         }
     }

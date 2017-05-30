@@ -19,10 +19,10 @@ import co.edu.uninorte.movilrubricaapp2.BR;
 @IgnoreExtraProperties
 public class Rubrica implements Observable {
 
-    public static ObservableArrayList<Rubrica> ObservableListRubrica = new ObservableArrayList<>();
-    public ObservableArrayList<Categoria> ObservableListCategorias;
+    public static ObservableArrayList<Object> ObservableListRubrica = new ObservableArrayList<>();
+    public  ObservableArrayList<Categoria> ObservableListCategorias;
     public int EscalaMaxima;
-    public String UID;
+    public String ID;
     String name;
     String descripcion;
 
@@ -35,16 +35,34 @@ public class Rubrica implements Observable {
         this.name = name;
         this.EscalaMaxima = niveles;
         this.descripcion = descripcion;
+        Rubricas= App.getRubricas();
     }
 
     public static List<String> getListNames() {
         ArrayList<String> names = new ArrayList<>();
         for (int i = 0; i < ObservableListRubrica.size(); i++) {
-            names.add(ObservableListRubrica.get(i).getName());
+  //TODO:   pasar a object        names.add(ObservableListRubrica.get(i).getName());
         }
         return names;
     }
-
+    public static Rubrica FindOne(String UID) {
+        for (Object temp : ObservableListRubrica) {
+            Rubrica a = (Rubrica) temp;
+            if (a.ID.equals(UID)) {
+                return a;
+            }
+        }
+        return null;
+    }
+    public  Categoria FindOneCategoria(String UID) {
+        for (Object temp : ObservableListCategorias) {
+            Categoria a = (Categoria) temp;
+            if (a.ID.equals(UID)) {
+                return a;
+            }
+        }
+        return null;
+    }
     @Bindable
     public String getName() {
         return name;
@@ -69,13 +87,7 @@ public class Rubrica implements Observable {
         registry.notifyChange(this, BR.rubricamodel);
     }
 
-
-
-    public void Save() {
-
-        Rubricas.child(UID).setValue(this);
-
-    }
+    public void Save() {Rubricas.child(ID).setValue(this);}
 
     @Override
     public void addOnPropertyChangedCallback(OnPropertyChangedCallback onPropertyChangedCallback) {

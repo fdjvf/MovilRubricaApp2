@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.orm.SugarContext;
 
 import java.io.Serializable;
 
@@ -68,8 +67,6 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        SugarContext.init(this);
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         binding = DataBindingUtil.setContentView(this, R.layout.main_activity);
         fill();
@@ -116,16 +113,16 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
         int page = binding.viewpager.getCurrentItem();
         if (page == 0) {
             Intent myIntent = new Intent(this, EvaluacionEstudianteActivity.class);
-            Asignatura selectedCourse = Asignatura.ObserVableAsignaturas.get(position);
-            long selectedCourseId= selectedCourse.getId();
+            Asignatura selectedCourse = (Asignatura) Asignatura.ObserVableAsignaturas.get(position);
+            String selectedCourseId= selectedCourse.getUID();
             myIntent.putExtra("myCourseId", selectedCourseId);
             startActivity(myIntent);
             EditingCurso = true;
         } else {
 
             Intent myIntent = new Intent(this, RubricaCreacion.class);
-            Rubrica selectedRubrica = Rubrica.ObservableListRubrica.get(position);
-            long idRubrica = selectedRubrica.getId();
+            Rubrica selectedRubrica = (Rubrica) Rubrica.ObservableListRubrica.get(position);
+            String idRubrica = selectedRubrica.ID;
             myIntent.putExtra("Edicion", true);
             EditingRubrica = true;
             myIntent.putExtra("Nuevo", false);

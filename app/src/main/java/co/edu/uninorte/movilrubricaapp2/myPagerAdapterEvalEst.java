@@ -10,9 +10,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class myPagerAdapterEvalEst extends FragmentPagerAdapter {
     private static int NUM_ITEMS = 2;
-    public long course;
+    public String course;
 
-    public myPagerAdapterEvalEst(FragmentManager fm, long mycourse) {
+    public myPagerAdapterEvalEst(FragmentManager fm, String mycourse) {
         super(fm);
         this.course= mycourse;
     }

@@ -17,6 +17,7 @@ public class App extends Application {
     private DatabaseReference Asignaturas;
     private DatabaseReference Rubricas;
     private DatabaseReference connectedRef;
+    private DatabaseReference Categorias;
 
 
     @Override
@@ -28,20 +29,29 @@ public class App extends Application {
         Asignaturas.keepSynced(true);
         Rubricas = FirebaseDatabase.getInstance().getReference("Rubricas");
         Rubricas.keepSynced(true);
+        Categorias = FirebaseDatabase.getInstance().getReference("Categorias");
+        Categorias.keepSynced(true);
 
         connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
     }
-
-    public DatabaseReference getConnectedRefInstance() {
-        return this.connectedRef;
+    public static synchronized App getInstance(){
+        return mInstance;
     }
 
-    public DatabaseReference getAsignaturas() {
-        return this.Asignaturas;
+    public static DatabaseReference getConnectedRefInstance() {
+        return getInstance().connectedRef;
     }
 
-    public DatabaseReference getRubricas() {
-        return this.Rubricas;
+    public static DatabaseReference getAsignaturas() {
+        return getInstance().Asignaturas;
+    }
+
+    public static DatabaseReference getRubricas() {
+        return getInstance().Rubricas;
+    }
+
+    public static DatabaseReference getCategorias() {
+        return getInstance().Categorias;
     }
 
     public void OnChangedAsignaturas() {
@@ -62,7 +72,7 @@ public class App extends Application {
 
                 Asignatura newAsignatura = dataSnapshot.getValue(Asignatura.class);
                 for (int i = 0; i < Asignatura.ObserVableAsignaturas.size(); i++) {
-                    Asignatura asignatura = Asignatura.ObserVableAsignaturas.get(i);
+                    Asignatura asignatura = (Asignatura) Asignatura.ObserVableAsignaturas.get(i);
                     if (newAsignatura.getUID().equals(asignatura.getUID())) {
                         Asignatura.ObserVableAsignaturas.set(i, newAsignatura);
                         break;
@@ -101,8 +111,8 @@ public class App extends Application {
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Rubrica newRubrica = dataSnapshot.getValue(Rubrica.class);
                 for (int i = 0; i < Rubrica.ObservableListRubrica.size(); i++) {
-                    Rubrica temp = Rubrica.ObservableListRubrica.get(i);
-                    if (newRubrica.UID.equals(temp.UID)) {
+                    Rubrica temp = (Rubrica) Rubrica.ObservableListRubrica.get(i);
+                    if (newRubrica.ID.equals(temp.ID)) {
 
                         Rubrica.ObservableListRubrica.set(i, newRubrica);
                         break;
@@ -127,5 +137,33 @@ public class App extends Application {
         });
     }
 
+    public void OnChangeCategorias(){
+        Categorias.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 }

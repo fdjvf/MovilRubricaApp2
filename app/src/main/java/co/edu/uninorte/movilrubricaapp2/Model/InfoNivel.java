@@ -1,10 +1,13 @@
 package co.edu.uninorte.movilrubricaapp2.Model;
 
+import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.Observable;
 import android.databinding.PropertyChangeRegistry;
 
 import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.io.Serializable;
 
 import co.edu.uninorte.movilrubricaapp2.BR;
 
@@ -12,24 +15,20 @@ import co.edu.uninorte.movilrubricaapp2.BR;
  * Created by fdjvf on 4/12/2017.
  */
 @IgnoreExtraProperties
-public class InfoNivel implements Observable {
+public class InfoNivel extends BaseObservable implements Serializable{
 
     String descripcion;
     int nivel;
 
-    private PropertyChangeRegistry registry = new PropertyChangeRegistry();
+
 
     public InfoNivel(String descripcion, int nivel) {
         this.descripcion = descripcion;
         this.nivel = nivel;
     }
-
     public InfoNivel() {
 
     }
-
-
-
     @Bindable
     public String getDescripcion() {
         return descripcion;
@@ -38,8 +37,8 @@ public class InfoNivel implements Observable {
     @Bindable
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-        registry.notifyChange(this, BR.elementInfo);
-        registry.notifyChange(this, BR.descripcionInfoNivel);
+        notifyPropertyChanged(BR.elementInfo);
+        notifyPropertyChanged(BR.descripcionInfoNivel);
     }
 
     @Bindable
@@ -52,15 +51,4 @@ public class InfoNivel implements Observable {
         this.nivel = nivel;
     }
 
-    @Override
-    public void addOnPropertyChangedCallback(OnPropertyChangedCallback onPropertyChangedCallback) {
-
-        registry.add(onPropertyChangedCallback);
-    }
-
-    @Override
-    public void removeOnPropertyChangedCallback(OnPropertyChangedCallback onPropertyChangedCallback) {
-
-        registry.remove(onPropertyChangedCallback);
-    }
 }
