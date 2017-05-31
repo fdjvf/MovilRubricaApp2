@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import co.edu.uninorte.movilrubricaapp2.CategoriaPesoCategoria;
-import co.edu.uninorte.movilrubricaapp2.ElementoPesoElemento;
+import co.edu.uninorte.movilrubricaapp2.Model.CategoriaPesoCategoria;
+import co.edu.uninorte.movilrubricaapp2.Model.ElementoPesoElemento;
 import co.edu.uninorte.movilrubricaapp2.R;
 import co.edu.uninorte.movilrubricaapp2.databinding.ElementoPorcentajeFilaBinding;
 import co.edu.uninorte.movilrubricaapp2.databinding.EvaluacionCategoriaFilaBinding;

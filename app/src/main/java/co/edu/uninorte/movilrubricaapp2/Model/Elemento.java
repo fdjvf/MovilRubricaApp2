@@ -4,33 +4,32 @@ import android.databinding.ObservableArrayList;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.io.Serializable;
+
 /**
  * Created by fdjvf on 4/11/2017.
  */
 
 @IgnoreExtraProperties
-public class Elemento {
+public class Elemento implements Serializable {
 
     public ObservableArrayList<InfoNivel> ObservableDescricionNivel;
     String name;
-    String UID;
+    int UID;
 
 
-    public Elemento(ObservableArrayList<InfoNivel> observableDescricionNivel, String name) {
-        ObservableDescricionNivel = observableDescricionNivel;
+    public Elemento(String name, int id) {
+        ObservableDescricionNivel = new ObservableArrayList<>();
+        this.UID = id;
         this.name = name;
     }
 
-    public Elemento() {
 
-    }
-
-
-    public String getUID() {
+    public int getUID() {
         return UID;
     }
 
-    public void setUID(String UID) {
+    public void setUID(int UID) {
         this.UID = UID;
     }
 

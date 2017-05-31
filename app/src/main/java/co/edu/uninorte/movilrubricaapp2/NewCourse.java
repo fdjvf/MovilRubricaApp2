@@ -32,23 +32,16 @@ public class NewCourse extends AppCompatActivity {
 
     public void NewEntryStudent(View view) {
         //    StudentHints.add(new StudentHint("Estudiante " + StudentHint.Count));//Floatin Button
-        Estudiante estudiante = new Estudiante();
+   /*     Estudiante estudiante = new Estudiante();
         estudiante.setName(FirstStudent.getName());
         binding.StudentNametbx.setText("");
 
-        CourseStudents.add(estudiante);
+        CourseStudents.add(estudiante);*/
     }
 
     public void SaveCourse(View view) {
-
+        newAsignatura.ObservableEstudiantesCurso.addAll(CourseStudents);
         newAsignatura.Save();
-        for (Estudiante t : CourseStudents) {
-            t.setAsignatura(newAsignatura);
-            t.save();
-        }
-        newAsignatura.getEstudiante();
-        ObservableArrayList<Object> t = newAsignatura.ObservableEstudiantesCurso;
-
         this.finish();
 
 

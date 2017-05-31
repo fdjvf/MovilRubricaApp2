@@ -6,13 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-
 import java.io.Serializable;
 
 import co.edu.uninorte.movilrubricaapp2.Model.Asignatura;
-import co.edu.uninorte.movilrubricaapp2.Model.Categoria;
-import co.edu.uninorte.movilrubricaapp2.Model.Elemento;
-import co.edu.uninorte.movilrubricaapp2.Model.Estudiante;
 import co.edu.uninorte.movilrubricaapp2.Model.Rubrica;
 import co.edu.uninorte.movilrubricaapp2.databinding.MainActivityBinding;
 
@@ -20,14 +16,12 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 
 
     MainActivityBinding binding;
-    Asignatura t;
-    boolean EditingRubrica;
     MyPagerAdapter myPagerAdapter;
-    boolean EditingCurso;
+
 
     public static void fill() {
 
-        for (int i = 1; i < 11; i++) {
+     /*   for (int i = 1; i < 11; i++) {
             Rubrica r = new Rubrica();
             r.setName("Rubrica " + i);
             r.Save();
@@ -60,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
                 estudiante.save();
             }
         }
-
+*/
     }
 
     @Override
@@ -70,10 +64,8 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         binding = DataBindingUtil.setContentView(this, R.layout.main_activity);
         fill();
-        //Cuando se crea el elemento ya queda registradoo, puede modificarlo y luego guardarlo de nuevoo
         binding.viewpager.setAdapter(myPagerAdapter);
 
-        // binding.CoursesList.setSelection(0);//Permite que la lista comience en una posicion espeficia
 
 
     }
@@ -84,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
             myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
             binding.viewpager.setAdapter(myPagerAdapter);
             binding.viewpager.setCurrentItem(1);
-            //     ItemFragment.bindList(   myPagerAdapter.Rubricas.getListView(),Rubrica.ObservableListRubrica);
+
         }
     }
 
@@ -114,19 +106,16 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
         if (page == 0) {
             Intent myIntent = new Intent(this, EvaluacionEstudianteActivity.class);
             Asignatura selectedCourse = (Asignatura) Asignatura.ObserVableAsignaturas.get(position);
-            String selectedCourseId= selectedCourse.getUID();
-            myIntent.putExtra("myCourseId", selectedCourseId);
+            myIntent.putExtra("Course", selectedCourse);
             startActivity(myIntent);
-            EditingCurso = true;
+
         } else {
 
             Intent myIntent = new Intent(this, RubricaCreacion.class);
             Rubrica selectedRubrica = (Rubrica) Rubrica.ObservableListRubrica.get(position);
-            String idRubrica = selectedRubrica.ID;
             myIntent.putExtra("Edicion", true);
-            EditingRubrica = true;
             myIntent.putExtra("Nuevo", false);
-            myIntent.putExtra("rubricaId", idRubrica);
+            myIntent.putExtra("Rubrica", selectedRubrica);
             startActivityForResult(myIntent, 1);
             //Comenzar actividad para la rubrica
         }

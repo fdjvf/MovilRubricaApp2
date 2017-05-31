@@ -1,14 +1,7 @@
-package co.edu.uninorte.movilrubricaapp2;
+package co.edu.uninorte.movilrubricaapp2.Model;
 
-
-import android.provider.ContactsContract;
-
-import com.google.firebase.database.DatabaseReference;
-
-import java.util.ArrayList;
 
 import co.edu.uninorte.movilrubricaapp2.Model.Calificaciones.PesoElemento;
-import co.edu.uninorte.movilrubricaapp2.Model.Elemento;
 
 /**
  * Created by fdjvf on 4/19/2017.

@@ -1,7 +1,6 @@
-package co.edu.uninorte.movilrubricaapp2;
+package co.edu.uninorte.movilrubricaapp2.Model;
 
 import co.edu.uninorte.movilrubricaapp2.Model.Calificaciones.PesoCategoria;
-import co.edu.uninorte.movilrubricaapp2.Model.Categoria;
 
 /**
  * Created by fdjvf on 4/19/2017.

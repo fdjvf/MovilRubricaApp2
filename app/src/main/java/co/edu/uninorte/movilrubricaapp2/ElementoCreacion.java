@@ -23,7 +23,7 @@ import co.edu.uninorte.movilrubricaapp2.databinding.ElementoDescripcionInputBind
 public class ElementoCreacion extends AppCompatActivity {
 
 
-    public ObservableArrayList<Object> ElementList = new ObservableArrayList<>();
+    public ObservableArrayList<Object> ElementInfoList;
     ElementoDescripcionInputBinding texboxinputBinding;
     ElementoCreacionContentBinding elementoCreacionContentBinding;
     Elemento elemento;
@@ -37,21 +37,15 @@ public class ElementoCreacion extends AppCompatActivity {
         ElementoCreacionActivityBinding elementoCreacionActivityBinding = DataBindingUtil.setContentView(this, R.layout.elemento_creacion_activity);
         elementoCreacionContentBinding = elementoCreacionActivityBinding.elementoContent;
         Intent intent = getIntent();
-
-        String  id = intent.getStringExtra("Categoria");
-        Categoria categoria = Categoria.findById(Categoria.class, id);
+        ElementInfoList = new ObservableArrayList<>();
         isEditable = intent.getBooleanExtra("Edicion", true);
-
+        Nivel = intent.getIntExtra("Nivel", 1);
         if (isEditable) {
-            String idele = intent.getStringExtra("elementoedit");
-            elemento = categoria.FindOneElement(idele);
+            elemento = intent.getParcelableExtra("elementoedit");
         } else {
+            Categoria categoria = (Categoria) intent.getSerializableExtra("Categoria");
+            elemento = new Elemento("", categoria.ObservableListElements.size());
 
-            Nivel = categoria.rubrica.EscalaMaxima;
-            elemento = new Elemento();
-            elemento.setName("");
-           // elemento.setCategoria(categoria);
-            elemento.save();
 
         }
         LoadList();
@@ -70,8 +64,8 @@ public class ElementoCreacion extends AppCompatActivity {
                 final AlertDialog.Builder Alertbuilder = new AlertDialog.Builder(
                         ElementoCreacion.this, R.style.Theme_AppCompat_Dialog_Alert);
                 texboxinputBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.elemento_descripcion_input, null, false);
-                ((InfoNivel) ElementList.get(pos)).setDescripcion("");
-                texboxinputBinding.setDescripcionInfoNivel((InfoNivel) ElementList.get(pos));
+                ((InfoNivel) ElementInfoList.get(pos)).setDescripcion("");
+                texboxinputBinding.setDescripcionInfoNivel((InfoNivel) ElementInfoList.get(pos));
 
                 Alertbuilder.setTitle("Ingresar descripcion");
                 Alertbuilder.setCancelable(false);
@@ -80,15 +74,15 @@ public class ElementoCreacion extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        ElementInfoListAdapter.bindList(elementoCreacionContentBinding.ElementosListView, ElementList);
+                        ElementInfoListAdapter.bindList(elementoCreacionContentBinding.ElementosListView, ElementInfoList);
                     }
                 });
 
                 Alertbuilder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ((InfoNivel) ElementList.get(pos)).setDescripcion("Breve Descripción");
-                        ElementInfoListAdapter.bindList(elementoCreacionContentBinding.ElementosListView, ElementList);
+                        ((InfoNivel) ElementInfoList.get(pos)).setDescripcion("Breve Descripción");
+                        ElementInfoListAdapter.bindList(elementoCreacionContentBinding.ElementosListView, ElementInfoList);
 
                     }
                 });
@@ -102,44 +96,41 @@ public class ElementoCreacion extends AppCompatActivity {
     public void LoadList() {
         //Modo edicion o modo nuevo
         if (isEditable) {
-            elemento.getInfoNivel();
-            ElementList.addAll(elemento.ObservableDescricionNivel);
+
+            ElementInfoList.addAll(elemento.ObservableDescricionNivel);
         } else {
             for (int i = 1; i <= Nivel; i++) {
-                ElementList.add(new InfoNivel("Breve Descripcion", i));
+                ElementInfoList.add(new InfoNivel("Breve Descripcion", i));
             }
         }
 
     }
 
+    private void SaveObserVableInfoElements() {
+        for (int i = 0; i < ElementInfoList.size(); i++) {
+            InfoNivel t = (InfoNivel) ElementInfoList.get(i);
+            elemento.ObservableDescricionNivel.set(i, t);
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent myIntent = getIntent();
 
         if (isEditable) {
-            elemento.save();
-            for (int i = 0; i < ElementList.size(); i++) {
-                ((InfoNivel) ElementList.get(i)).setElemento(elemento);
-                ((InfoNivel) ElementList.get(i)).save();
-                //Validaciones de que este vacio
-            }
 
-            myIntent.putExtra("editcElemento", elemento.getId());
+            SaveObserVableInfoElements();
+
+            myIntent.putExtra("editcElemento", elemento);
 
             setResult(RESULT_OK, myIntent);
         } else {
             if (!elemento.getName().isEmpty()) {
-                elemento.save();
-                for (int i = 1; i < Nivel; i++) {
-                    ((InfoNivel) ElementList.get(i - 1)).setElemento(elemento);
-                    ((InfoNivel) ElementList.get(i - 1)).save();
-                    //Validaciones de que este vacio
-                }
 
-                myIntent.putExtra("NuevoElemento", elemento.getId());
+                SaveObserVableInfoElements();
+                myIntent.putExtra("NuevoElemento", elemento);
                 setResult(RESULT_OK, myIntent);
             } else {
-                elemento.delete();
+
                 setResult(RESULT_CANCELED, myIntent);
             }
         }

@@ -44,38 +44,30 @@ public class RubricaCreacion extends AppCompatActivity {
         rubricaCreacionContentBinding = rubricaCreacionBinding.rubricaContent;
 
         Intent t = getIntent();
-//TODO: AGREGAR GETKEY A LA RUBRICA Y SETEARLE EL ID
+        //TODO: AGREGAR GETKEY A LA RUBRICA Y SETEARLE EL ID
         rubricaCreacionBinding.AgregarCategoria.setEnabled(false);
         isEditable = t.getBooleanExtra("Edicion", true);
         isNew = t.getBooleanExtra("Nuevo", true);
         if (isEditable) {
             //Modo edicion activado
-            String id = t.getStringExtra("rubricaId");
-            rubrica = Rubrica.FindOne(id);
+            rubrica = (Rubrica) t.getSerializableExtra("Rubrica");
             rubricaCreacionContentBinding.LevelsSpinner.setEnabled(false);
             mylist = rubrica.ObservableListCategorias;
-
             //Todas las categorias de esa rubrica
 
         } else {
             //Modo nueva rubrica activado
-            rubrica = new Rubrica();
-            rubrica.setName("");
-            rubrica.setDescripcion("");
+            rubrica = new Rubrica("", 0, "");//Siempre llama al constructor
             rubrica.setID(App.getRubricas().getKey());
-            //TODO: ponerle el key
-            //rubrica.Save();
-            //guardado normalito, sin agregarlo a la vaina observable
+
             rubricaCreacionContentBinding.LevelsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if (!doSomething) {
                         doSomething = true;
-
                     } else {//Permite actualizar la vista con los elementos correspondientes
                         rubricaCreacionContentBinding.LevelsSpinner.setEnabled(false);
                         rubrica.EscalaMaxima = position + 3;
-                        //rubrica.Save();
                         rubricaCreacionBinding.AgregarCategoria.setEnabled(true);
                         Toast.makeText(RubricaCreacion.this, "A partir de ahora, usted no puede modificar la escala de calificación ", Toast.LENGTH_LONG).show();
                     }
@@ -94,11 +86,10 @@ public class RubricaCreacion extends AppCompatActivity {
 
 
                     Intent temp = new Intent(RubricaCreacion.this, CategoriaCreacion.class);
-                    temp.putExtra("Rubrica", rubrica.ID);
+                    temp.putExtra("Rubrica", rubrica);
                     temp.putExtra("Nuevo", isNew);
                     temp.putExtra("Edicion", false);
                     startActivityForResult(temp, 1);
-
 
                 }
             });
@@ -120,7 +111,7 @@ public class RubricaCreacion extends AppCompatActivity {
                 Intent temp = new Intent(RubricaCreacion.this, CategoriaCreacion.class);
                 temp.putExtra("Edicion", true);
                 temp.putExtra("Nuevo", isNew);//AGREGAR O NO MAS CATEGOORIAS
-                temp.putExtra("CateEdit", categoria.getID());
+                temp.putExtra("CateEdit", categoria);
                 catedited = true;
                 LastCatClicked = position;
                 startActivityForResult(temp, 1);
@@ -132,21 +123,22 @@ public class RubricaCreacion extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //Agregado nuevo valor
         if (catedited) {
-            int id = data.getIntExtra("editcategoria", 0);
+
            //TODO: rubrica
-            Categoria categoria = rubrica.FindOneCategoria(id);
-            mylist.set(LastCatClicked, categoria);
+            Categoria categoria = (Categoria) data.getSerializableExtra("editcategoria");
+            rubrica.ObservableListCategorias.set(categoria.getID(), categoria);
+            //  mylist.set(LastCatClicked, categoria);
             catedited = false;
-            rubrica.ObservableListCategorias.set(id,categoria);
+            rubrica.Save();//Edición
             //CategoriaAddListAdapter.bindList(rubricaCreacionContentBinding.CategoriasDisponiblesListView,mylist);
         } else {
             if (resultCode == RESULT_OK) {
 
-                int id = data.getIntExtra("NewCategoria",0);
-                Categoria categoria = rubrica.FindOneCategoria(id);
-                mylist.add(categoria);
 
+                Categoria categoria = (Categoria) data.getSerializableExtra("NewCategoria");
                 rubrica.ObservableListCategorias.add(categoria);
+                rubrica.Save();
+
             }
         }
 
@@ -199,10 +191,7 @@ public class RubricaCreacion extends AppCompatActivity {
                 if (rubrica.getName().isEmpty()) {
                     rubrica.setName("Rubrica " + Rubrica.ObservableListRubrica.size() + 1);
                 }
-
                 rubrica.Save();
-            } else {
-                //rubrica.delete();
             }
             } else {
                 if (isEditable) {

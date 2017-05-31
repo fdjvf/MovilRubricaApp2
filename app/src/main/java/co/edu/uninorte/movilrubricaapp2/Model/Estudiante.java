@@ -1,16 +1,18 @@
 package co.edu.uninorte.movilrubricaapp2.Model;
 
+import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.Observable;
 import android.databinding.ObservableArrayList;
 import android.databinding.PropertyChangeRegistry;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.io.Serializable;
+
 import co.edu.uninorte.movilrubricaapp2.BR;
 
 @IgnoreExtraProperties
-public class Estudiante implements Observable {
+public class Estudiante extends BaseObservable implements Serializable {
 
 
 

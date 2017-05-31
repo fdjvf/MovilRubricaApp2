@@ -1,16 +1,15 @@
 package co.edu.uninorte.movilrubricaapp2.Model;
 
+import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.Observable;
 import android.databinding.ObservableArrayList;
-import android.databinding.PropertyChangeRegistry;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Objects;
 import java.util.Set;
 
 import co.edu.uninorte.movilrubricaapp2.BR;
@@ -21,8 +20,9 @@ import co.edu.uninorte.movilrubricaapp2.BR;
 
 
 @IgnoreExtraProperties
-public class Asignatura implements Observable {
+public class Asignatura extends BaseObservable implements Serializable {
     //Manejo de Binding
+
 
     public static ObservableArrayList<Object> ObserVableAsignaturas = new ObservableArrayList<>();    //Todas las asignaturas
     public Hashtable<String, ArrayList<Calificacion>> Calificaciones; //Calificioanes
@@ -33,11 +33,8 @@ public class Asignatura implements Observable {
     Boolean isVisible;
     String UID;
     DatabaseReference Asignaturas;//Obtener Asignaturas
-    private PropertyChangeRegistry registry = new PropertyChangeRegistry();
 
-    public Asignatura(PropertyChangeRegistry registry) {
-        this.registry = registry;
-    }
+
 
     public Asignatura(String name, String description, Boolean isVisible, String UID) {
         this.name = name;
@@ -88,7 +85,8 @@ public class Asignatura implements Observable {
     @Bindable
     public void setName(String name) {
         this.name = name;
-        registry.notifyChange(this, BR.coursemodel);//Permite doble binding
+        notifyPropertyChanged(BR.coursemodel);
+
     }
 
     @Bindable
@@ -99,7 +97,7 @@ public class Asignatura implements Observable {
     @Bindable
     public void setDescription(String description) {
         this.description = description;
-        registry.notifyChange(this, BR.coursemodel);
+        notifyPropertyChanged(BR.coursemodel);
     }
 
     //Solo utilizar para creacion, de resto utilizar el save
@@ -108,16 +106,6 @@ public class Asignatura implements Observable {
         Asignaturas.child(UID).setValue(this);
     }
 
-    @Override
-    public void addOnPropertyChangedCallback(OnPropertyChangedCallback onPropertyChangedCallback) {
-        registry.add(onPropertyChangedCallback);
-    }
-
-    @Override
-    public void removeOnPropertyChangedCallback(OnPropertyChangedCallback onPropertyChangedCallback) {
-        registry.remove(onPropertyChangedCallback);
-
-    }
 
     public ObservableArrayList<Evaluacion> getCalificaciones(String estudianteId) {
         Set<String> keysets = Calificaciones.keySet();

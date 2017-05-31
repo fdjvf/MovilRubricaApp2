@@ -47,32 +47,22 @@ public class CategoriaCreacion extends AppCompatActivity {
         Intent intent = getIntent();
         IsEditable = intent.getBooleanExtra("Edicion", true);
         isNew = intent.getBooleanExtra("Nuevo", true);
-        String id = intent.getStringExtra("Rubrica");
-        myrubrica = Rubrica.FindOne(id);
+
 
         if (!isNew) {
             categoriaCreacionActivityBinding.AgregarElemento.setEnabled(false);
         }
         if (IsEditable) {
 
-            String catid = intent.getStringExtra("CateEdit");
-            categoria = myrubrica.FindOneCategoria(catid);
-            //categoria.getElementos();
+
+            categoria = (Categoria) getIntent().getSerializableExtra("CateEdit");
             ElementList = categoria.ObservableListElements;
 
         } else {
-
-
-
+            myrubrica = (Rubrica) intent.getSerializableExtra("Rubrica");
             Nivel = myrubrica.EscalaMaxima;
+            categoria = new Categoria("", "", myrubrica.ObservableListCategorias.size());
 
-            categoria = new Categoria();
-            //categoria.rubrica = myrubrica;
-            categoria.setDescripcion("");
-            categoria.setName("");
-            categoria.setID(myrubrica.ObservableListCategorias.size());
-            myrubrica.ObservableListCategorias.add(categoria);
-            myrubrica.Save();
 
         }
         Toolbar toolbar = categoriaCreacionActivityBinding.toolbar;
@@ -86,10 +76,11 @@ public class CategoriaCreacion extends AppCompatActivity {
 
                 Intent temp = new Intent(CategoriaCreacion.this, ElementoCreacion.class);
                 temp.putExtra("Edicion", true);
+                temp.putExtra("Nivel", Nivel);
                 elementedited = true;
                 LastClicked = position;
                 Elemento elemento = (Elemento) ElementList.get(position);
-                temp.putExtra("elementoedit", elemento.getUID());
+                temp.putExtra("elementoedit", elemento);
                 startActivityForResult(temp, 1);
 
 
@@ -102,7 +93,8 @@ public class CategoriaCreacion extends AppCompatActivity {
                 //Actividad de creacion de elementos
                 Intent temp = new Intent(CategoriaCreacion.this, ElementoCreacion.class);
                 temp.putExtra("Edicion", false);
-                temp.putExtra("Categoria", categoria.getID());
+                temp.putExtra("Categoria", categoria);
+                temp.putExtra("Nivel", Nivel);
                 startActivityForResult(temp, 1);
             }
         });
@@ -114,16 +106,18 @@ public class CategoriaCreacion extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (elementedited) {
         //TODO: mas tarde
-            String id = data.getStringExtra("editcElemento");
-            Elemento elemento = categoria.FindOneElement(id);
-            ElementList.set(LastClicked, elemento);
+
+            Elemento elemento = (Elemento) data.getSerializableExtra("editcElemento");
+            categoria.ObservableListElements.set(elemento.getUID(), elemento);
+
             elementedited = false;
         } else {
 
             if (resultCode == RESULT_OK) {
-                String id = data.getStringExtra("NuevoElemento");
-                Elemento newElement = categoria.FindOneElement(id);
-                ElementList.add(newElement);
+
+                Elemento newElement = (Elemento) data.getSerializableExtra("NuevoElemento");
+                categoria.ObservableListElements.add(newElement);
+
             }
 
 
@@ -172,9 +166,8 @@ public class CategoriaCreacion extends AppCompatActivity {
 
             Intent myIntent = getIntent();
             if (IsEditable) {
-               //TODO: FABIO NO SÉ QUÉ HACE ESTO
-                //categoria.save();
-                myIntent.putExtra("editcategoria", categoria.getID());
+                //TODO: FABIO NO SÉ QUÉ HACE ESTO ,AMARTE
+                myIntent.putExtra("editcategoria", categoria);
                 setResult(RESULT_OK, myIntent);
             } else {
                 if (!categoria.ObservableListElements.isEmpty()) {
@@ -184,17 +177,13 @@ public class CategoriaCreacion extends AppCompatActivity {
                     if (categoria.getName().isEmpty()) {
                         categoria.setName("Categoria " + myrubrica.ObservableListCategorias.size());
                     }
-                   //TODO: categoria.Save();
-                    myrubrica.ObservableListCategorias.add(categoria);
-                    myrubrica.Save();
-                    //categoria.rubrica = myrubrica;
-                    //categoria.save();
-                    myIntent.putExtra("NewCategoria", categoria.getID());
+
+                    myIntent.putExtra("NewCategoria", categoria);
 
                     setResult(RESULT_OK, myIntent);
                 } else {
                     setResult(RESULT_CANCELED, myIntent);
-                    //categoria.delete();
+
                 }
 
             }
