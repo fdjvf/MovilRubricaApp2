@@ -46,5 +46,11 @@ public class Evaluacion implements Serializable {
         Nombre = nombre;
     }
 
+    public ArrayList<PesoCategoria> getPesoCategorias() {
+        return pesoCategorias;
+    }
 
+    public void setPesoCategorias(ArrayList<PesoCategoria> pesoCategorias) {
+        this.pesoCategorias = pesoCategorias;
+    }
 }

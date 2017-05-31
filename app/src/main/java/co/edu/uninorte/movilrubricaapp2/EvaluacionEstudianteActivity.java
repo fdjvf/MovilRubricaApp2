@@ -37,7 +37,7 @@ public class EvaluacionEstudianteActivity extends AppCompatActivity implements I
 
         if (page == 0) {
 
-
+//CRER NUEVA EVALUACIÓN
             Intent myIntent = new Intent(this, EvaluacionCreacionActivity.class);
             myIntent.putExtra("myCourseId",actualCourseId);
             startActivityForResult(myIntent, 1);
@@ -45,6 +45,7 @@ public class EvaluacionEstudianteActivity extends AppCompatActivity implements I
 
         } else {
 
+            //REPORTE DE EVALUACIONES DEL ESTUDIANTE DE ESE CURSO
             /*Intent myIntent = new Intent(this, RubricaCreacion.class);
             startActivity(myIntent);*/
 
@@ -73,7 +74,9 @@ public class EvaluacionEstudianteActivity extends AppCompatActivity implements I
 
         } else {
             Toast.makeText(this, "Estudiante" + position, Toast.LENGTH_LONG).show();
-            //Comenzar actividad para la rubrica
+            //position es la posición en el Observable del estudiante de ese curso
+            //TODO: Llamar a la actividad que muestra las evaluaciones por estudiante
+            //Comenzar actividad para el reporte de evaluaciones por ese estudiante en específico
         }
 
     }

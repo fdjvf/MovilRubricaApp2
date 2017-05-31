@@ -39,7 +39,7 @@ public class EvaluacionCreacionActivity extends AppCompatActivity {
     List<CategoriaPesoCategoria> categoriaPesoCategorias;
     HashMap<Integer, ArrayList<ElementoPesoElemento>> miHash;
     private Boolean doSomething = false;
-
+    ArrayList<PesoCategoria> pesosxCateg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +47,8 @@ public class EvaluacionCreacionActivity extends AppCompatActivity {
 
 
         Intent i = getIntent();
-        long myId = i.getLongExtra("myCourseId", 0);
-        asignatura = Asignatura.findById(Asignatura.class, myId);
+        String myId = i.getStringExtra("myCourseId");
+        asignatura = Asignatura.FindOne(myId);
         evaluacion = new Evaluacion();
 
 
@@ -68,35 +68,53 @@ public class EvaluacionCreacionActivity extends AppCompatActivity {
                     doSomething = true;
                 } else {
                     r = (Rubrica) Rubrica.ObservableListRubrica.get(position - 1);
-                    List<Categoria> categorias = r.getCategorias();
+                    List<Object> categorias = r.ObservableListCategorias;
                     categoriaPesoCategorias = new ArrayList<CategoriaPesoCategoria>();
                     miHash = new HashMap<Integer, ArrayList<ElementoPesoElemento>>();
+                    pesosxCateg = new ArrayList<>();
 
                     for (int i = 0; i < categorias.size(); i++) {
-                        Categoria cat = categorias.get(i);
+                        Categoria cat = (Categoria) categorias.get(i);
+
                         CategoriaPesoCategoria catpeso = new CategoriaPesoCategoria();
                         PesoCategoria pcat = new PesoCategoria();
+
                         pcat.setPeso("");
                         pcat.categoria = cat;
-                        pcat.evaluacion = evaluacion;
+                        // pcat.categoria = cat;
+                        // pcat.evaluacion = evaluacion;
 
+
+                        //Rellena arraylist para la evaluación
+
+
+                        //Rellenar CatPespCat
                         catpeso.categoria = cat;
                         catpeso.pesoCategoria = pcat;
 
                         categoriaPesoCategorias.add(catpeso);
 
-                        List<Elemento> elementos = cat.getElementoslista();
+                        List<Object> elementos = cat.ObservableListElements;
                         ArrayList<ElementoPesoElemento> elementoPesoElementos = new ArrayList<>();
+                        ArrayList<PesoElemento> pesosxElemen= new ArrayList<>();
+                        for (int j =0; j<elementos.size();j++) {
+                            Elemento var = (Elemento) elementos.get(j);
 
-                        for (Elemento var : elementos) {
                             PesoElemento pesoElemento = new PesoElemento();
+
                             pesoElemento.setPeso("");
-                            pesoElemento.pesoCategoria = pcat;
+                            pesosxElemen.add(pesoElemento);
+                            //pesoElemento.pesoCategoria = pcat;
+
                             ElementoPesoElemento elepeso = new ElementoPesoElemento();
                             elepeso.elemento = var;
                             elepeso.pesoElemento = pesoElemento;
                             elementoPesoElementos.add(elepeso);
+
                         }
+                        pcat.pesoElementos= pesosxElemen;
+                        pesosxCateg.add(pcat);
+
                         miHash.put(i, elementoPesoElementos);
 
                     }
@@ -117,7 +135,8 @@ public class EvaluacionCreacionActivity extends AppCompatActivity {
         });
 
         binding.setNombreEval(evaluacion);
-        evaluacion.setAsignatura(asignatura);
+        asignatura.ObservableEvaluacionesCurso.add(evaluacion);
+        // evaluacion.setAsignatura(asignatura);
         binding.nombreEvalEt.setFocusable(false);
         Toolbar toolbar = binding.toolbar3;
         setSupportActionBar(toolbar);
@@ -174,24 +193,29 @@ public class EvaluacionCreacionActivity extends AppCompatActivity {
             //Si llego hasta aca, es que puede guardar
             i = 0;
             evaluacion.setRubrica(r);
-            evaluacion.save();
+            //evaluacion.save();
+
+            pesosxCateg= new ArrayList<>();
             for (CategoriaPesoCategoria var : categoriaPesoCategorias) {
                 PesoCategoria pesoCategoria = var.pesoCategoria;
-                pesoCategoria.save();
-                ArrayList<ElementoPesoElemento> PesosElemento = miHash.get(i);
-                ElementoPesoElemento.SaveList(PesosElemento);
-                i++;
+                // ArrayList<ElementoPesoElemento> PesosElemento = miHash.get(i);
+                //ElementoPesoElemento.SaveList(PesosElemento);
+                //i++;
+                pesosxCateg.add(pesoCategoria);
+
             }
+            evaluacion.setPesoCategorias(pesosxCateg);
+            asignatura.ObservableEvaluacionesCurso.add(evaluacion);
 
             Intent mt = getIntent();
-            mt.putExtra("EvalId", evaluacion.getId());
+            //mt.putExtra("EvalId", evaluacion.getId());
             setResult(RESULT_OK, getIntent());
             finish();
             return true;
 
         } else {
 
-            evaluacion.delete();
+            //evaluacion.delete();
         }
         finish();
         return true;
