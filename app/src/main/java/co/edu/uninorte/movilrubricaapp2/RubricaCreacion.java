@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import co.edu.uninorte.movilrubricaapp2.Model.App;
 import co.edu.uninorte.movilrubricaapp2.Model.Categoria;
 import co.edu.uninorte.movilrubricaapp2.Model.Rubrica;
 import co.edu.uninorte.movilrubricaapp2.databinding.RubricaCreacionBinding;
@@ -58,7 +57,7 @@ public class RubricaCreacion extends AppCompatActivity {
         } else {
             //Modo nueva rubrica activado
             rubrica = new Rubrica("", 0, "");//Siempre llama al constructor
-            rubrica.setID(App.getRubricas().getKey());
+
 
             rubricaCreacionContentBinding.LevelsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -123,7 +122,6 @@ public class RubricaCreacion extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //Agregado nuevo valor
         if (catedited) {
-
            //TODO: rubrica
             Categoria categoria = (Categoria) data.getSerializableExtra("editcategoria");
             rubrica.ObservableListCategorias.set(categoria.getID(), categoria);

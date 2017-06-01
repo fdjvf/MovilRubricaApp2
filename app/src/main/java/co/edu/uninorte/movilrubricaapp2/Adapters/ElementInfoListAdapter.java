@@ -17,15 +17,15 @@ import co.edu.uninorte.movilrubricaapp2.databinding.ElementoElementinfoFilaBindi
  * Created by fdjvf on 4/17/2017.
  */
 
-public class ElementInfoListAdapter extends ListAdapter {
+public class ElementInfoListAdapter<T> extends ListAdapter {
 
-    public ElementInfoListAdapter(ObservableArrayList<Object> list) {
+    public ElementInfoListAdapter(ObservableArrayList<T> list) {
         super(list);
     }
 
     @BindingAdapter("bind:NewInfoElement")
-    public static void bindList(ListView view, ObservableArrayList<Object> list) {
-        ElementInfoListAdapter adapter = new ElementInfoListAdapter(list);
+    public static void bindList(ListView view, ObservableArrayList<InfoNivel> list) {
+        ElementInfoListAdapter adapter = new ElementInfoListAdapter<InfoNivel>(list);
         view.setAdapter(adapter);
     }
 

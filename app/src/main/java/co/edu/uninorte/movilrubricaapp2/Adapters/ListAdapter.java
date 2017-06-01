@@ -10,12 +10,12 @@ import android.widget.BaseAdapter;
  * Created by fdjvf on 4/13/2017.
  */
 
-public class ListAdapter extends BaseAdapter {
+public class ListAdapter<T> extends BaseAdapter {
 
-    protected ObservableArrayList<Object> list;
+    protected ObservableArrayList<T> list;
     protected LayoutInflater inflater;
 
-    public ListAdapter(ObservableArrayList<Object> list) {
+    public ListAdapter(ObservableArrayList<T> list) {
         this.list = list;
     }
 

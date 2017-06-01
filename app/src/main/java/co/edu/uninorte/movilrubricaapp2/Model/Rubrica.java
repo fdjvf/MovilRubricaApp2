@@ -21,7 +21,7 @@ public class Rubrica extends BaseObservable implements Serializable {
     public static ObservableArrayList<Object> ObservableListRubrica = new ObservableArrayList<>();
     public  ObservableArrayList<Object> ObservableListCategorias;
     public int EscalaMaxima;
-    public String ID;
+    String ID;
     String name;
     String descripcion;
 
@@ -89,7 +89,7 @@ public class Rubrica extends BaseObservable implements Serializable {
     }
 
     public void Save() {
-        App.getRubricas().child(ID).setValue(this);
+        App.getRubricas().child(getID()).setValue(this);
     }
 
 }

@@ -74,11 +74,11 @@ public class ItemFragment extends ListFragment {
 
         switch (pagina) {
             case 1:
-                Asignatura.GetAll();
+
                 list = Asignatura.ObserVableAsignaturas;
                 break;
             case 2:
-                Rubrica.GetAll();
+
                 list = Rubrica.ObservableListRubrica;
                 break;
         }

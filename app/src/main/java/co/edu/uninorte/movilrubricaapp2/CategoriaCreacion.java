@@ -26,7 +26,7 @@ import co.edu.uninorte.movilrubricaapp2.databinding.CategoriaDescripcionInputBin
 
 public class CategoriaCreacion extends AppCompatActivity {
 
-    public ObservableArrayList<Object> ElementList = new ObservableArrayList<>();
+    public ObservableArrayList<Object> ElementList;
     CategoriaDescripcionInputBinding texboxinputBinding;
     Categoria categoria;
     Rubrica myrubrica;
@@ -52,19 +52,17 @@ public class CategoriaCreacion extends AppCompatActivity {
         if (!isNew) {
             categoriaCreacionActivityBinding.AgregarElemento.setEnabled(false);
         }
+
         if (IsEditable) {
-
-
             categoria = (Categoria) getIntent().getSerializableExtra("CateEdit");
-            ElementList = categoria.ObservableListElements;
 
         } else {
             myrubrica = (Rubrica) intent.getSerializableExtra("Rubrica");
             Nivel = myrubrica.EscalaMaxima;
             categoria = new Categoria("", "", myrubrica.ObservableListCategorias.size());
 
-
         }
+        ElementList = categoria.ObservableListElements;
         Toolbar toolbar = categoriaCreacionActivityBinding.toolbar;
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

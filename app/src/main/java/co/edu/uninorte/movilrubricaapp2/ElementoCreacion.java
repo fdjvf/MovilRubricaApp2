@@ -23,7 +23,7 @@ import co.edu.uninorte.movilrubricaapp2.databinding.ElementoDescripcionInputBind
 public class ElementoCreacion extends AppCompatActivity {
 
 
-    public ObservableArrayList<Object> ElementInfoList;
+    public ObservableArrayList<InfoNivel> ElementInfoList;
     ElementoDescripcionInputBinding texboxinputBinding;
     ElementoCreacionContentBinding elementoCreacionContentBinding;
     Elemento elemento;
@@ -37,17 +37,19 @@ public class ElementoCreacion extends AppCompatActivity {
         ElementoCreacionActivityBinding elementoCreacionActivityBinding = DataBindingUtil.setContentView(this, R.layout.elemento_creacion_activity);
         elementoCreacionContentBinding = elementoCreacionActivityBinding.elementoContent;
         Intent intent = getIntent();
-        ElementInfoList = new ObservableArrayList<>();
+
         isEditable = intent.getBooleanExtra("Edicion", true);
         Nivel = intent.getIntExtra("Nivel", 1);
         if (isEditable) {
-            elemento = intent.getParcelableExtra("elementoedit");
+            elemento = (Elemento) intent.getSerializableExtra("elementoedit");
+            ElementInfoList = elemento.ObservableDescricionNivel;
         } else {
             Categoria categoria = (Categoria) intent.getSerializableExtra("Categoria");
             elemento = new Elemento("", categoria.ObservableListElements.size());
 
 
         }
+        ElementInfoList = elemento.ObservableDescricionNivel;
         LoadList();
         Toolbar toolbar = elementoCreacionActivityBinding.toolbar;
         setSupportActionBar(toolbar);
@@ -64,8 +66,8 @@ public class ElementoCreacion extends AppCompatActivity {
                 final AlertDialog.Builder Alertbuilder = new AlertDialog.Builder(
                         ElementoCreacion.this, R.style.Theme_AppCompat_Dialog_Alert);
                 texboxinputBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.elemento_descripcion_input, null, false);
-                ((InfoNivel) ElementInfoList.get(pos)).setDescripcion("");
-                texboxinputBinding.setDescripcionInfoNivel((InfoNivel) ElementInfoList.get(pos));
+                ElementInfoList.get(pos).setDescripcion("");
+                texboxinputBinding.setDescripcionInfoNivel(ElementInfoList.get(pos));
 
                 Alertbuilder.setTitle("Ingresar descripcion");
                 Alertbuilder.setCancelable(false);
@@ -81,7 +83,7 @@ public class ElementoCreacion extends AppCompatActivity {
                 Alertbuilder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ((InfoNivel) ElementInfoList.get(pos)).setDescripcion("Breve Descripción");
+                        ElementInfoList.get(pos).setDescripcion("Breve Descripción");
                         ElementInfoListAdapter.bindList(elementoCreacionContentBinding.ElementosListView, ElementInfoList);
 
                     }
@@ -95,20 +97,18 @@ public class ElementoCreacion extends AppCompatActivity {
 
     public void LoadList() {
         //Modo edicion o modo nuevo
-        if (isEditable) {
-
-            ElementInfoList.addAll(elemento.ObservableDescricionNivel);
-        } else {
+        if (!isEditable) {
             for (int i = 1; i <= Nivel; i++) {
                 ElementInfoList.add(new InfoNivel("Breve Descripcion", i));
             }
+
         }
 
     }
 
     private void SaveObserVableInfoElements() {
         for (int i = 0; i < ElementInfoList.size(); i++) {
-            InfoNivel t = (InfoNivel) ElementInfoList.get(i);
+            InfoNivel t = ElementInfoList.get(i);
             elemento.ObservableDescricionNivel.set(i, t);
         }
     }
@@ -119,9 +119,7 @@ public class ElementoCreacion extends AppCompatActivity {
         if (isEditable) {
 
             SaveObserVableInfoElements();
-
             myIntent.putExtra("editcElemento", elemento);
-
             setResult(RESULT_OK, myIntent);
         } else {
             if (!elemento.getName().isEmpty()) {

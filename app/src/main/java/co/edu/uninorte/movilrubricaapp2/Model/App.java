@@ -2,6 +2,7 @@ package co.edu.uninorte.movilrubricaapp2.Model;
 
 import android.app.Application;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,23 +15,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class App extends Application {
     private static App mInstance;
+    FirebaseAuth Auth;
     private DatabaseReference Asignaturas;
     private DatabaseReference Rubricas;
     private DatabaseReference connectedRef;
 
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        super.onCreate();
-        mInstance = this;
-        Asignaturas = FirebaseDatabase.getInstance().getReference("Asignaturas");
-        Asignaturas.keepSynced(true);
-        Rubricas = FirebaseDatabase.getInstance().getReference("Rubricas");
-        Rubricas.keepSynced(true);
-
-        connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
-    }
     public static synchronized App getInstance(){
         return mInstance;
     }
@@ -47,6 +36,23 @@ public class App extends Application {
         return getInstance().Rubricas;
     }
 
+    public static FirebaseAuth getAuth() {
+        return getInstance().Auth;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        super.onCreate();
+        mInstance = this;
+        Asignaturas = FirebaseDatabase.getInstance().getReference("Asignaturas");
+        Asignaturas.keepSynced(true);
+        Rubricas = FirebaseDatabase.getInstance().getReference("Rubricas");
+        Rubricas.push().setValue("2");
+        Rubricas.keepSynced(true);
+        Auth = FirebaseAuth.getInstance();
+        connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+    }
 
     public void OnChangedAsignaturas() {
         Asignaturas.addChildEventListener(new ChildEventListener() {
